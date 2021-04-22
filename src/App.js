@@ -3,6 +3,14 @@ import './App.css';
 
 // Appコンポーネントクラス
 class App extends Component {
+  // コンストラクター
+  constructor (props) {
+    super ()
+    // 変数に値をセットする。
+    this.title = props.title
+    this.message = props.message
+  }
+
   // レンダリング
   render () {
     return <div>
@@ -11,13 +19,10 @@ class App extends Component {
         </h1>
         <div className="container">
           <p className="subtitle">
-            This is sample component.
+            {this.title}
           </p>
           <p>
-            これはサンプルのコンポーネントです。
-          </p>
-          <p>
-            簡単なメッセージを表示する。
+            {this.message}
           </p>
         </div>
       </div>
