@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import Rect from './Rect'
 
 // Appコンポーネントクラス
 class App extends Component {
-  // コンストラクター
-  constructor (props) {
-    super ()
-    // 変数に値をセットする。
-    this.title = props.title
-    this.message = props.message
-  }
-
   // レンダリング
   render () {
     return <div>
@@ -19,11 +12,11 @@ class App extends Component {
         </h1>
         <div className="container">
           <p className="subtitle">
-            {this.title}
+            draw rectangle.
           </p>
-          <p>
-            {this.message}
-          </p>
+          <Rect x="200" y="200" w="200" h="200" c="#6ff9" r="25" />
+          <Rect x="300" y="300" w="200" h="200" c="#f6f9" r="75" />
+          <Rect x="400" y="400" w="200" h="200" c="#6669" r="100" />
         </div>
       </div>
   }

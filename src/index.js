@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 // Appコンポーネントを取り込む
 ReactDOM.render(
   <React.StrictMode>
-    <App title="App" message="This is App Component!" />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
