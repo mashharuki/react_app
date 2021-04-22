@@ -8,8 +8,20 @@ class App extends Component {
     super (props)
     // ステートの初期化
     this.state = {
-      msg: 'Hello Component.',
+      msg: 'count start!',
+      counter: 0,
+      flg: true,
     }
+    this.doAction = this.doAction.bind(this)
+  }
+
+  // doAction関数
+  doAction (e) {
+    this.setState({
+      counter: this.state.counter + 1,
+      msg: this.state.counter,
+      flg: !this.state.flg
+    })
   }
 
   // レンダリング
@@ -20,14 +32,26 @@ class App extends Component {
         </h1>
         <div className="container">
           <p className="subtitle">
-            Show message.
+            Count number.
           </p>
-          <p className="alert alert-warning">
-            {this.state.msg}
-          </p>
-          <p className="alert alert-dark">
-            {this.props.msg}
-          </p>
+          {this.state.flg ?
+            <div className="alert alert-primary text-right">
+              <p className="h5">
+                count: {this.state.msg}
+              </p>
+            </div>
+          :
+            <div className="alert alert-primary text-left">
+              <p className="h5">
+                {this.state.msg}です。
+              </p>
+            </div>
+          }
+          <div className="alert alert-primary text-center">
+            <button className="btn btn-primary" onClick={this.doAction}>
+              Click
+            </button>
+          </div>
         </div>
       </div>
   }
