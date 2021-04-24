@@ -12,25 +12,17 @@ class App extends Component {
     super (props)
     this.state = {
       title : 'input form',
-      message : 'type your name.'
+      message : 'type your name.',
+      max : 10,
     }
     // メソッドをバインドする。
-    this.doChange = this.doChange.bind(this)
-    this.doSubmit = this.doSubmit.bind(this)
+    this.doCheck = this.doCheck.bind(this)
   }
 
-  // 変更するための関数
-  doChange (event) {
-    this.input = event.target.value;
-  }
-
-  // 送信するための関数
-  doSubmit (event) {
-    this.setState({
-      title : 'send form',
-      message : 'Hello, ' + this.input + '!!' 
-    })
-    event.preventDefault()
+  // チェックするための関数
+  doCheck (event) {
+    // アラートを表示する。
+    alert(event.target.value + "は長すぎます。(最大" + this.state.max + "文字)")
   }
 
   // レンダリング
@@ -43,18 +35,7 @@ class App extends Component {
           <h4>
             {this.state.title}
           </h4>
-          <p className="card h5 p-3">
-            {this.state.message}
-          </p>
-          <div className="alert alert-primary mt-3">
-            <form onSubmit={this.doSubmit}>
-              <div className="form-group">
-                <label>Message:</label>
-                <input type="text" className="form-control" onChange={this.doChange} required pattern="[A-Za-z _,.]+" />
-              </div>
-              <input type="submit" className="btn btn-primary" value="Click" />
-            </form>
-          </div>
+          <Message maxlength={this.state.max} onCheck={this.doCheck} />
         </div>
       </div>
   }
@@ -69,32 +50,28 @@ class Message extends Component {
     color : '#090'
   }
 
+  // コンストラクター
+  constructor (props) {
+    super(props)
+    // メソッドをバインドする。
+    this.doChange = this.doChange.bind(this)
+  }
+
+  // 変更するための関数
+  doChange (e) {
+    if (e.target.value.length > this.props.maxlength) {
+      // チェック関数を実行する。
+      this.props.onCheck(e)
+      // 強制的に10文字に変更させる。
+      e.target.value = e.target.value.substr(0, this.props.maxlength)
+    }
+  }
+
   // レンダリング
   render () {
-    // 変数を初期化
-    let content = this.props.children
-    let arr = content.split('。')
-    let arr2 = []
-    // 配列arr2に値を詰める。
-    for (let i = 0;i < arr.length; i++ ) {
-      if (arr[i].trim() != '') {
-        arr2.push(arr[i]);
-      }
-    }
-    // arr2の値を使ってmapを作成する。
-    let list = arr2.map( (value, key) => (
-      <li className="list-group-item" style={this.li} key={key}>
-        {key + 1}. {value}.
-      </li>
-    ))
-      
-    return <div>
-        <h2>
-          {this.props.title}
-        </h2>
-        <ol className="list-group">
-          {list}
-        </ol>
+    return <div className="form-group">
+       <label>input:</label>
+       <input type="text" className="form-control" onChange={this.doChange} />
       </div>
   }
 }
