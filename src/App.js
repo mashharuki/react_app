@@ -10,6 +10,27 @@ class App extends Component {
   // コンストラクター
   constructor (props) {
     super (props)
+    this.state = {
+      title : 'input form',
+      message : 'type your name.'
+    }
+    // メソッドをバインドする。
+    this.doChange = this.doChange.bind(this)
+    this.doSubmit = this.doSubmit.bind(this)
+  }
+
+  // 変更するための関数
+  doChange (event) {
+    this.input = event.target.value;
+  }
+
+  // 送信するための関数
+  doSubmit (event) {
+    this.setState({
+      title : 'send form',
+      message : 'Hello, ' + this.input + '!!' 
+    })
+    event.preventDefault()
   }
 
   // レンダリング
@@ -19,11 +40,21 @@ class App extends Component {
           React
         </h1>
         <div className="container">
-          <Message title="Children">
-            これはコンポーネント内のコンテンツです。
-            マルチでテキストを分割し、リストにして表示します。
-            改行は必要ありません。
-          </Message>
+          <h4>
+            {this.state.title}
+          </h4>
+          <p className="card h5 p-3">
+            {this.state.message}
+          </p>
+          <div className="alert alert-primary mt-3">
+            <form onSubmit={this.doSubmit}>
+              <div className="form-group">
+                <label>Message:</label>
+                <input type="text" className="form-control" onChange={this.doChange} required pattern="[A-Za-z _,.]+" />
+              </div>
+              <input type="submit" className="btn btn-primary" value="Click" />
+            </form>
+          </div>
         </div>
       </div>
   }
