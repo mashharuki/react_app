@@ -3,14 +3,21 @@ import './App.css';
 
 // Appコンポーネントクラス
 class App extends Component {
+  
+  data = []
+  // プロパティ
+  area = {
+    width: "500px",
+    height: "500px",
+    border: "1px solid blue"
+  }
+
   // コンストラクター
   constructor (props) {
     super (props)
     // ステートの初期化
     this.state = {
-      counter : 0,
-      msg : 'count start!',
-      flg : true,
+      list: this.data
     }
     // メソッドをバインドする。
     this.doAction = this.doAction.bind(this)
@@ -18,12 +25,25 @@ class App extends Component {
 
   // doAction関数
   doAction (e) {
-    // ステートの変更
+    let x = e.pageX
+    let y = e.pageY
+    this.data.push({x:x, y:y})
     this.setState({
-      counter : this.state.counter + 1,
-      msg : this.state.counter,
-      flg : !this.state.flg,
+      list: this.data
     })
+  }
+
+  // 四角を描くする関数
+  draw (d) {
+    let s ={
+      position: "absolute",
+      left: (d.x - 25) + "px",
+      top: (d.y - 25) + "px",
+      width: "50px",
+      height: "50px",
+      backgroundColor: "#66f3",
+    }
+    return <div style={s}></div>
   }
 
   // レンダリング
@@ -34,25 +54,10 @@ class App extends Component {
         </h1>
         <div className="container">
           <p className="subtitle">
-            Count number
+            draw rectangle.
           </p>
-          {this.state.flg ?
-            <div className="alert alert-primary text-right">
-              <p className="h5">
-                count: {this.state.msg}
-              </p>
-            </div>
-          :
-            <div className="alert alert-warning text-left">
-              <p className="h5">
-                {this.state.counter}です。
-              </p>
-            </div>
-          }
-          <div className="text-center">
-            <button className="btn btn-primary" onClick={this.doAction}>
-              Click
-            </button>
+          <div style={this.area} onClick={this.doAction}>
+            {this.data.map((value) => this.draw(value))}
           </div>
         </div>
       </div>
