@@ -12,6 +12,12 @@ const SampleContext = React.createContext(data)
 
 // Appコンポーネントクラス
 class App extends Component {
+
+  // プロバイダー用の変数を用意する。　
+  newdata = {
+    title : '新しいタイトル',
+    message : 'これは新しいメッセージです。'
+  }
   
   // レンダリング
   render () {
@@ -20,6 +26,14 @@ class App extends Component {
           React
         </h1>
         <div className="container">
+          <Title />
+          <Message />
+          <hr />
+          <SampleContext.Provider value={this.newdata}>
+            <Title />
+            <Message />
+          </SampleContext.Provider>
+          <hr />
           <Title />
           <Message />
         </div>
