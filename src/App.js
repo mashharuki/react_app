@@ -3,14 +3,12 @@ import './App.css';
 
 // Appコンポーネントクラス
 class App extends Component {
-  
-  data = []
-  // プロパティ
-  area = {
-    width: "500px",
-    height: "500px",
-    border: "1px solid blue"
-  }
+  // 配列データを定義する。
+  data = [
+    "This is list sample",
+    "これはリストのサンプルです。",
+    "配列をリストに変換します。"
+  ]
 
   // コンストラクター
   constructor (props) {
@@ -19,31 +17,6 @@ class App extends Component {
     this.state = {
       list: this.data
     }
-    // メソッドをバインドする。
-    this.doAction = this.doAction.bind(this)
-  }
-
-  // doAction関数
-  doAction (e) {
-    let x = e.pageX
-    let y = e.pageY
-    this.data.push({x:x, y:y})
-    this.setState({
-      list: this.data
-    })
-  }
-
-  // 四角を描くする関数
-  draw (d) {
-    let s ={
-      position: "absolute",
-      left: (d.x - 25) + "px",
-      top: (d.y - 25) + "px",
-      width: "50px",
-      height: "50px",
-      backgroundColor: "#66f3",
-    }
-    return <div style={s}></div>
   }
 
   // レンダリング
@@ -54,14 +27,67 @@ class App extends Component {
         </h1>
         <div className="container">
           <p className="subtitle">
-            draw rectangle.
+            Show List.
           </p>
-          <div style={this.area} onClick={this.doAction}>
-            {this.data.map((value) => this.draw(value))}
-          </div>
+          <List title="サンプル・リスト" data={this.data} />
         </div>
       </div>
   }
 }
+
+// Listコンポーネントクラス
+class List extends Component {
+  // 変数を初期化する。
+  number = 1
+
+  // レンダリングする。
+  render () {
+    // ステートの値を格納する。
+    let data = this.props.data
+    return (
+      <div>
+        <p className="h5 text-center">
+          {this.props.title}
+        </p>
+        <ul className="list-group">
+          {data.map((item, key) => 
+            <li className="list-group-item" key={key}>
+              <Item number={key + 1} value={item} />
+            </li>
+          )}
+        </ul>
+      </div>
+    )
+  }
+}
+
+// Itemコンポーネントクラス
+class Item extends Component {
+
+  itm = {
+    fontsize : "16pt",
+    color : "#00f",
+    textDecoration : 'underline',
+    textDecorationColor : '#ddf'
+  }
+
+  num = {
+    fontWeight : "bold",
+    color : "red"
+  }
+
+  // レンダリングする。
+  render () {
+    return (
+      <p style={this.itm}>
+        <span style={this.num}>
+          [{this.props.number}]&nbsp;
+        </span>
+        {this.props.value}
+      </p>
+    )
+  }
+}
+
 // Appコンポーネントを外部に出すこと。
 export default App;
