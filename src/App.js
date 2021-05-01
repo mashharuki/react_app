@@ -26,8 +26,10 @@ function App() {
     mail: 'no mail', 
     age: 0 
   });
-  const [ val, setVal ] = useState(0);
-  const [ msg, setMsg ] = useState('set a number...');
+  const [ val, setVal ] = useState(1000);
+  const [ msg, setMsg ] = useState(<p>set a price...</p>);
+  const [ tax1, setTax1 ] = useState(0);
+  const [ tax2, setTax2 ] = useState(0);
 
   // 以下、それぞれ値を更新する関数
   const doChangeName = (event) => {
@@ -46,6 +48,15 @@ function App() {
     setVal(event.target.value);
   }
 
+  const doAction = () => {
+    let res = <div>
+      <p>軽減税率(8%) ： {tax1}円</p>
+      <p>通常税率(10%) ： {tax2}円</p>
+    </div>
+    // ステートをセットする。
+    setMsg(res);
+  }
+
   // 送信するための関数
   const doSubmit = (event) => {
     // ステートをセットする。
@@ -55,13 +66,13 @@ function App() {
 
   // 副作用フック(更新時に指定の関数を実行する。)
   useEffect (() => {
-    let total = 0;
-    // 合計回数だけループする。
-    for (let i = 0;i < val; i++){
-      total += 1;
-    }
     // ステートを更新する。
-    setMsg("total: " + total + ".");
+    setTax1(Math.floor(val * 1.08));
+  });
+
+  useEffect (() => {
+    // ステートを更新する。
+    setTax2(Math.floor(val * 1.1));
   });
 
   // レンダリング
@@ -79,6 +90,9 @@ function App() {
           <label>Inpit:</label>
           <input type="number" className="form-control" onChange={doChange}/>
         </div>
+        <button className="btn btn-primary" onClick={doAction}>
+          Calc
+        </button>
         <form onSubmit={doSubmit}>
           <div className="form-group">
             <label>Name:</label>
