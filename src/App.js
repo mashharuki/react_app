@@ -1,31 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-// カウントするための独自フック
-function useCounter() {
-  // ステート変数
-  const [ num, setNum ] = useState(0);
-  // 加算する
-  const count =  () => {
-    setNum(num + 1);
+// 税率計算を行うフック
+const useTax = (t1, t2) => {
+  // ステート変数を設定する。
+  const [ price, setPrice ] = useState(1000);
+  const [ tx1 ] = useState(t1);
+  const [ tx2 ] = useState(t2);
+  
+  // 更新する。
+  const tax = () => {
+    return Math.floor(price * (1.0 + tx1 / 100));
   }
-  // 値を得る変数と値を更新する関数を返す。
-  return [num, count];
+
+  const reduced = () => {
+    return Math.floor(price * (1.0 + tx2 / 100));
+  }
+
+  return [ price, tax, reduced, setPrice ];
 }
 
 // アラートを表示する関数コンポーネント
 function AlertMessage(props) {
   // ステート変数
-  const [ counter, plus ] = useCounter(0);
+  const [ price, tax, reduced, setPrice ] = useTax(10, 8);
+
+  // 値が変わった時に呼び出す関数
+  const DoChange = (e)  => {
+    let p = e.target.value;
+    // ステートをセットする。
+    setPrice(p);
+  }
 
   // レンダリング
-  return <div className="alert alert-primary h5 text-primary">
-    <h4>
-      count: {counter}.
-    </h4>
-    <button onClick={plus} className="btn btn-primary">
-      count
-    </button>
+  return <div className="alert alert-primary h5">
+      <p className="h5">
+        軽減税率(8%) ： {tax()}円
+      </p>
+      <p className="h5">
+        通常税率(10%) ： {reduced()}円
+      </p>
+      <div className="form-group">
+        <label className="form-group-label">
+          Price:
+        </label>
+        <input type="number" className="form-control" onChange={DoChange} value={price} />
+      </div>
   </div>
 }
 
@@ -42,8 +62,6 @@ function App() {
   });
   const [ val, setVal ] = useState(1000);
   const [ msg, setMsg ] = useState(<p>set a price...</p>);
-  const [ tax1, setTax1 ] = useState(0);
-  const [ tax2, setTax2 ] = useState(0);
 
   // 以下、それぞれ値を更新する関数
   const doChangeName = (event) => {
@@ -58,36 +76,12 @@ function App() {
     setAge(event.target.value);
   }
 
-  const doChange = (event) => {
-    setVal(event.target.value);
-  }
-
   // 送信するための関数
   const doSubmit = (event) => {
     // ステートをセットする。
     setForm({name: name, mail: mail, age: age});
     event.preventDefault();
   }
-
-  // 副作用フック(更新時に指定の関数を実行する。)
-  useEffect (() => {
-    // ステートを更新する。
-    setTax1(Math.floor(val * 1.08));
-  });
-
-  useEffect (() => {
-    // ステートを更新する。
-    setTax2(Math.floor(val * 1.1));
-  });
-
-  useEffect (() => {
-    let res = <div>
-      <p>軽減税率(8%) ： {tax1}円</p>
-      <p>通常税率(10%) ： {tax2}円</p>
-    </div>
-    // ステートをセットする。
-    setMsg(res);
-  }, [tax1, tax2]);
 
   // レンダリング
   return (
@@ -100,13 +94,6 @@ function App() {
           Hooks sample
         </h4>
         <AlertMessage />
-        <div className="form-group">
-          <label>Inpit:</label>
-          <input type="number" className="form-control" onChange={doChange}/>
-        </div>
-        <button className="btn btn-primary">
-          Calc
-        </button>
         <form onSubmit={doSubmit}>
           <div className="form-group">
             <label>Name:</label>
