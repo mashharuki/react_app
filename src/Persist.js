@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 
 // 独自フック(ky: 変数, initVal:関数)
 function usePersist(ky, initVal) {
-    // ステート変数を用意する。
-    const [ savedValue, setSavedValue ] = useState(value);
     // キー値
     const key = "hooks:" + ky;
     // ローカルストレージから値を取得する関数
@@ -28,6 +26,9 @@ function usePersist(ky, initVal) {
             console.log(err);
         }
     }
+    // ステート変数を用意する。
+    const [ savedValue, setSavedValue ] = useState(value);
+    // 戻り値
     return [ savedValue, setValue ];
 }
 
