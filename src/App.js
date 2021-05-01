@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
+// カウントするための独自フック
+function useCounter() {
+  // ステート変数
+  const [ num, setNum ] = useState(0);
+  // 加算する
+  const count =  () => {
+    setNum(num + 1);
+  }
+  // 値を得る変数と値を更新する関数を返す。
+  return [num, count];
+}
+
 // アラートを表示する関数コンポーネント
 function AlertMessage(props) {
   // ステート変数
-  const data = props.data;
-  const msg = JSON.stringify(data);
+  const [ counter, plus ] = useCounter(0);
 
   // レンダリング
   return <div className="alert alert-primary h5 text-primary">
-    <h5>
-      {props.msg}
-    </h5>
+    <h4>
+      count: {counter}.
+    </h4>
+    <button onClick={plus} className="btn btn-primary">
+      count
+    </button>
   </div>
 }
 
@@ -48,15 +62,6 @@ function App() {
     setVal(event.target.value);
   }
 
-  const doAction = () => {
-    let res = <div>
-      <p>軽減税率(8%) ： {tax1}円</p>
-      <p>通常税率(10%) ： {tax2}円</p>
-    </div>
-    // ステートをセットする。
-    setMsg(res);
-  }
-
   // 送信するための関数
   const doSubmit = (event) => {
     // ステートをセットする。
@@ -75,6 +80,15 @@ function App() {
     setTax2(Math.floor(val * 1.1));
   });
 
+  useEffect (() => {
+    let res = <div>
+      <p>軽減税率(8%) ： {tax1}円</p>
+      <p>通常税率(10%) ： {tax2}円</p>
+    </div>
+    // ステートをセットする。
+    setMsg(res);
+  }, [tax1, tax2]);
+
   // レンダリング
   return (
     <div>
@@ -85,12 +99,12 @@ function App() {
         <h4 className="my-3">
           Hooks sample
         </h4>
-        <AlertMessage msg={msg} />
+        <AlertMessage />
         <div className="form-group">
           <label>Inpit:</label>
           <input type="number" className="form-control" onChange={doChange}/>
         </div>
-        <button className="btn btn-primary" onClick={doAction}>
+        <button className="btn btn-primary">
           Calc
         </button>
         <form onSubmit={doSubmit}>
