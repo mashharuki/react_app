@@ -34,7 +34,7 @@ function DelForm (props) {
     // レンダリング
     return (
         <form onSubmit={doAction}>
-            <div className="form-control row">
+            <div className="form-group row">
                 <select type="text" className="form-control-sm col" onChange={doChange} defaultValue="-1">
                     {items}    
                 </select>

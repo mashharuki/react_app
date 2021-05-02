@@ -36,7 +36,7 @@ function FindForm (props) {
     // レンダリング
     return (
         <form onSubmit={doAction}>
-            <div className="form-control row">
+            <div className="form-group row">
                 <input type="text" className="form-control-sm col" onChange={doChange} value={message}/>
                 <input type="submit" className="btn btn-primary btn-sm col-2" value="Find"/>
             </div>

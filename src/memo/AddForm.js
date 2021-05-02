@@ -30,7 +30,7 @@ function AddForm (props) {
     // レンダリング
     return (
         <form onSubmit={doAction} action="">
-            <div className="form-control row">
+            <div className="form-group row">
                 <input type="text" className="form-control-sm col" onChange={doChange} value={message} required/>
                 <input type="submit" className="btn btn-primary btn-sm col-2" value="Add"/>
             </div>
