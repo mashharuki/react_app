@@ -4,7 +4,7 @@ import usePersist from '../Persist';
 // AddFormコンポーネント
 function AddForm (props) {
     // ステート変数を用意する。
-    const [ memo, setMemo ] = usePersist("mode", []);
+    const [ memo, setMemo ] = usePersist("memo", []);
     const [ message, setMessage ] = useState('');
 
     // doChange関数
