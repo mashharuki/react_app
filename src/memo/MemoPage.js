@@ -16,11 +16,11 @@ function MemoPage () {
                 mode: {mode}
             </h5>
             <div className="alert alert-primary pb-0">
-                <AddForm/>
-                <FindForm/>
-                <DelForm/>
+                <AddForm />
+                <FindForm />
+                <DelForm />
             </div>
-            <Memo/>
+            <Memo />
         </div>
     );
 }

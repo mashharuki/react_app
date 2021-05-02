@@ -6,8 +6,8 @@ function FindForm (props) {
     // ステート変数を用意する。
     const [ memo, setMemo ] = usePersist("memo", []);
     const [ fmemo, setFMemo ] = usePersist("findMemo", []);
-    const [ mode, setMode ] = usePersist('mode', 'find');
     const [ message, setMessage ] = useState('');
+    const [ mode, setMode ] = usePersist('mode', 'find');
 
     // doChange関数
     const doChange = (e) => {

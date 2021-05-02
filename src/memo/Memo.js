@@ -15,27 +15,27 @@ function Memo (props) {
     switch (mode) {
         // デフォルト表示の場合
         case 'default':
-            data = memo.map((value, key) => {
+            data = memo.map((value, key) => (
                 // Itemコンポーネントに引数を渡して読み込む
                 <Item key={value.message} value={value} index={key + 1}/>
-            });
+            ));
             // ステート変数を更新する。
             setMode('default');
             break;
 
         // 検索結果表示の場合
         case 'find':
-            data = fmemo.map((value, key) => {
+            data = fmemo.map((value, key) => (
                 // Itemコンポーネントに引数を渡して読み込む
                 <Item key={value.message} value={value} index={key + 1}/>
-            });
+            ));
             break;
 
         default:
-            data = memo.map((value, key) => {
+            data = memo.map((value, key) => (
                 // Itemコンポーネントに引数を渡して読み込む
                 <Item key={value.message} value={value} index={key + 1}/>
-            });
+            ));
     }
 
     // レンダリング
